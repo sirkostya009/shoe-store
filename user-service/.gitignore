@@ -1,0 +1,13 @@
+### Gradle ###
+**/.gradle/
+**/build/
+**/gradle/
+
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+.idea/
+
+### VS Code ###
+.vscode/

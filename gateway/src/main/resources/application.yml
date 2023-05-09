@@ -1,0 +1,75 @@
+logging:
+  level:
+    org:
+      springframework:
+        cloud: debug
+
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway
+  config:
+    import: optional:consul:/
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        health-check-path: /health
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: shoe-service
+          uri: lb://shoe-service
+          predicates:
+            - Path=/shoes/**
+          filters:
+            - RewritePath=/shoes(?<segment>/?.*), /api/shoes$\{segment}
+            - CircuitBreaker=shoes
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
+          filters:
+            - RewritePath=/users(?<segment>/?.*), /api/users$\{segment}
+            - CircuitBreaker=users
+        - id: picture-microservice
+          uri: lb://picture-microservice
+          predicates:
+            - Path=/pictures/**
+          filters:
+            - RewritePath=/pictures(?<segment>/?.*), /api/pictures$\{segment}
+            - CircuitBreaker=pictures
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      services:
+        wait-duration-in-open-state: 10s
+        failure-rate-threshold: 60
+        slow-call-duration-threshold:
+          - 2s
+        minimum-number-of-calls: 3
+        permitted-number-of-calls-in-half-open-state: 1
+
+management:
+  endpoint:
+    health:
+      show-details: never
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"

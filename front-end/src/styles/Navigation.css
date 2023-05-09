@@ -1,0 +1,108 @@
+nav {
+    background-color: #333;
+    color: #fff;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 1rem;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav button {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    nav button {
+        display: block;
+        background-color: transparent;
+        border: none;
+        width: 2rem;
+        height: 2rem;
+        margin-right: 1rem;
+        position: relative;
+    }
+
+    nav button span {
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 2px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.2s ease-out;
+    }
+
+    nav button span::before,
+    nav button span::after {
+        content: '';
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 2px;
+        left: 0;
+        transition: transform 0.2s ease-out;
+    }
+
+    nav button span::before {
+        top: -6px;
+    }
+
+    nav button span::after {
+        bottom: -6px;
+    }
+
+    nav button[aria-expanded='true'] span {
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    nav button[aria-expanded='true'] span::before {
+        transform: translateY(6px) rotate(90deg);
+    }
+
+    nav button[aria-expanded='true'] span::after {
+        transform: translateY(-6px) rotate(90deg);
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        right: 0;
+        background-color: #333;
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+    }
+
+    nav ul li a {
+        padding: 1rem;
+    }
+
+    nav[aria-expanded='true'] ul {
+        display: flex;
+    }
+}

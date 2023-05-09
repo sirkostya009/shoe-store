@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  consul:
+    image: consul:latest
+    container_name: consul
+    ports:
+      - "8500:8500"
+    command: consul agent -server -bootstrap-expect=1 -ui -data-dir /consul/data -client=0.0.0.0
+    restart: on-failure
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: "shoe_shop"
+      MYSQL_USER: "mysql"
+      MYSQL_PASSWORD: "mysql"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql:
+    driver: local
