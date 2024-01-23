@@ -1,7 +1,7 @@
 # Shoe Store
 
 ### Description
-Shoe store is a set of microservices and a React app that allows potentional customers to browse, buy and review shoes.
+Shoe store is a set of microservices and a React app that allows potential customers to browse, buy and review shoes.
 
 ### Running
 To run the project, you need to have docker installed. Then, run the following command:
